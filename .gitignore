@@ -1,0 +1,29 @@
+# PHP / Composer
+/vendor/
+/vendor/*
+/composer.lock
+
+# Environment
+.env
+.env.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Node
+node_modules/
+
+# XAMPP / runtime
+*.log
+**/uploads/
+
+# Composer vendor
+/vendor/
+
+# Ignore database export if present
+database/*.sql
