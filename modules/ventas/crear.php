@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!$cliente_id || empty($productos)) {
         flashMessage('danger', 'Seleccione un cliente y al menos un producto.');
-        redirect('/distribuciones-caribe/modules/ventas/crear.php');
+        redirect('/Taller-Aplicaciones-Web/modules/ventas/crear.php');
     }
 
     $subtotal = (float)$_POST['h_subtotal'];
@@ -52,96 +52,117 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         $pdo->commit();
         flashMessage('success', "Venta $numero registrada exitosamente.");
-        redirect("/distribuciones-caribe/modules/ventas/factura.php?numero=$numero");
+        redirect("/Taller-Aplicaciones-Web/modules/ventas/factura.php?numero=$numero");
     } catch (Exception $e) {
         $pdo->rollBack();
         flashMessage('danger', 'Error: ' . $e->getMessage());
-        redirect('/distribuciones-caribe/modules/ventas/crear.php');
+        redirect('/Taller-Aplicaciones-Web/modules/ventas/crear.php');
     }
 }
 
 include __DIR__ . '/../../includes/header.php';
 include __DIR__ . '/../../includes/sidebar.php';
 ?>
-<h2 style="margin-bottom:1rem">Nueva Venta</h2>
+<div class="page-header">
+  <h2>Nueva Venta</h2>
+  <a href="index.php" class="btn btn-secondary">← Volver</a>
+</div>
+
 <div class="card">
-<form method="POST" id="formVenta">
-  <div class="form-group">
-    <label>Cliente *</label>
-    <select name="cliente_id" class="form-control" required>
-      <option value="">Seleccionar cliente...</option>
-      <?php foreach ($clientes as $c): ?>
-      <option value="<?= $c['id'] ?>"><?= sanitize($c['nombre'].' '.$c['apellido'].' - '.$c['documento']) ?></option>
-      <?php endforeach; ?>
-    </select>
-  </div>
-
-  <h3 style="margin:1rem 0 .5rem">Productos</h3>
-  <div style="margin-bottom:.75rem;position:relative">
-    <input type="text" id="buscaProd" class="form-control" placeholder="Buscar producto por nombre o codigo..." style="max-width:400px">
-    <div id="sugerencias" style="background:var(--bg-card);border:1px solid var(--border);border-radius:6px;display:none;position:absolute;z-index:50;width:400px;top:100%"></div>
-  </div>
-
-  <div id="productosContainer"></div>
-
-  <div class="card" style="margin-top:1rem">
-    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:.3rem">
-      <span>Subtotal: <strong id="subtotal">$0.00</strong></span>
-      <span>IVA (19%): <strong id="iva">$0.00</strong></span>
-      <span style="font-size:1.2rem">TOTAL: <strong id="total">$0.00</strong></span>
+  <form method="POST" id="formVenta">
+    <div class="form-group">
+      <label>Cliente *</label>
+      <select name="cliente_id" class="form-control" required>
+        <option value="">Seleccionar cliente…</option>
+        <?php foreach ($clientes as $c): ?>
+        <option value="<?= $c['id'] ?>"><?= sanitize($c['nombre'].' '.$c['apellido'].' — '.$c['documento']) ?></option>
+        <?php endforeach; ?>
+      </select>
     </div>
-    <input type="hidden" name="h_subtotal" id="h_subtotal" value="0">
-    <input type="hidden" name="h_iva"      id="h_iva"      value="0">
-    <input type="hidden" name="h_total"    id="h_total"    value="0">
-  </div>
 
-  <div class="form-group" style="margin-top:1rem">
-    <label>Notas</label>
-    <textarea name="notas" class="form-control" rows="2"></textarea>
-  </div>
+    <div style="margin:1.25rem 0 .75rem;display:flex;align-items:center;gap:.75rem">
+      <span style="font-weight:600;font-size:1rem">Productos</span>
+      <div style="flex:1;height:1px;background:var(--border)"></div>
+    </div>
 
-  <div style="display:flex;gap:.5rem">
-    <button type="submit" class="btn btn-success">Registrar Venta</button>
-    <a href="index.php" class="btn btn-secondary">Cancelar</a>
-  </div>
-</form>
+    <div style="margin-bottom:.875rem;position:relative">
+      <input type="text" id="buscaProd" class="form-control" placeholder="Buscar producto por nombre o código…" style="max-width:440px">
+      <div id="sugerencias" class="suggestions-dropdown" style="display:none;max-width:440px"></div>
+    </div>
+
+    <div id="productosContainer"></div>
+
+    <div class="card" style="margin-top:1rem;background:rgba(255,255,255,.03)">
+      <div class="totals-box">
+        <div class="totals-row">
+          <span class="totals-label">Subtotal</span>
+          <span class="totals-val" id="subtotal">$0.00</span>
+        </div>
+        <div class="totals-row">
+          <span class="totals-label">IVA (19%)</span>
+          <span class="totals-val" id="iva">$0.00</span>
+        </div>
+        <div class="totals-row" style="margin-top:.35rem;padding-top:.5rem;border-top:1px solid var(--border)">
+          <span class="totals-label" style="font-size:1rem;color:var(--text-main);font-weight:600">TOTAL</span>
+          <span class="totals-val totals-total" id="total">$0.00</span>
+        </div>
+      </div>
+      <input type="hidden" name="h_subtotal" id="h_subtotal" value="0">
+      <input type="hidden" name="h_iva"      id="h_iva"      value="0">
+      <input type="hidden" name="h_total"    id="h_total"    value="0">
+    </div>
+
+    <div class="form-group" style="margin-top:1rem">
+      <label>Notas</label>
+      <textarea name="notas" class="form-control" rows="2" placeholder="Observaciones opcionales…"></textarea>
+    </div>
+
+    <div style="display:flex;gap:.5rem;padding-top:.25rem">
+      <button type="submit" class="btn btn-success">Registrar Venta</button>
+      <a href="index.php" class="btn btn-secondary">Cancelar</a>
+    </div>
+  </form>
 </div>
 
 <script>
-let filaIdx = 0;
-
 document.getElementById('buscaProd').addEventListener('input', function() {
   const q = this.value.trim();
-  if (q.length < 2) { document.getElementById('sugerencias').style.display='none'; return; }
-  fetch('/distribuciones-caribe/modules/ventas/api_productos.php?q=' + encodeURIComponent(q))
+  const div = document.getElementById('sugerencias');
+  if (q.length < 2) { div.style.display = 'none'; return; }
+  fetch('/Taller-Aplicaciones-Web/modules/ventas/api_productos.php?q=' + encodeURIComponent(q))
     .then(r => r.json())
     .then(data => {
-      const div = document.getElementById('sugerencias');
-      if (!data.length) { div.style.display='none'; return; }
+      if (!data.length) { div.style.display = 'none'; return; }
       div.innerHTML = data.map(p =>
-        '<div onclick="agregarProducto(' + p.id + ',\'' + p.codigo + '\',\'' + p.nombre.replace(/'/g,"\\'") + '\',' + p.precio + ',' + p.stock + ')"' +
-        ' style="padding:.5rem 1rem;cursor:pointer;border-bottom:1px solid var(--border)">' +
-        '<strong>' + p.nombre + '</strong> &mdash; ' + p.codigo + ' &mdash; $' + p.precio + ' (Stock: ' + p.stock + ')' +
+        '<div class="suggestion-item" onclick="agregarProducto(' + p.id + ',\'' +
+        p.codigo + '\',\'' + p.nombre.replace(/'/g,"\\'") + '\',' + p.precio + ',' + p.stock + ')">' +
+        '<strong>' + p.nombre + '</strong> &nbsp;<span>' + p.codigo + ' &mdash; $' + Number(p.precio).toLocaleString('es-CO') + ' &mdash; Stock: ' + p.stock + '</span>' +
         '</div>'
       ).join('');
-      div.style.display='block';
+      div.style.display = 'block';
     });
 });
 
+document.addEventListener('click', function(e) {
+  if (!e.target.closest('#buscaProd') && !e.target.closest('#sugerencias')) {
+    document.getElementById('sugerencias').style.display = 'none';
+  }
+});
+
 function agregarProducto(id, codigo, nombre, precio, stock) {
-  document.getElementById('sugerencias').style.display='none';
+  document.getElementById('sugerencias').style.display = 'none';
   document.getElementById('buscaProd').value = '';
   const div = document.createElement('div');
   div.className = 'fila-producto';
-  div.style.cssText = 'display:flex;gap:.5rem;align-items:center;margin-bottom:.5rem;flex-wrap:wrap';
   div.innerHTML =
     '<input type="hidden" name="producto_id[]" value="' + id + '">' +
     '<input type="hidden" name="precio[]" class="precio" value="' + precio + '">' +
-    '<span style="flex:1;min-width:200px">' + nombre + ' (' + codigo + ')</span>' +
-    '<span>$' + precio + '</span>' +
+    '<span style="flex:1;min-width:180px;font-weight:500">' + nombre + '</span>' +
+    '<span style="color:var(--text-muted);font-size:.8125rem">' + codigo + '</span>' +
+    '<span style="color:var(--text-muted)">$' + Number(precio).toLocaleString('es-CO') + '</span>' +
     '<input type="number" name="cantidad[]" class="cant form-control" value="1" min="1" max="' + stock + '" style="width:80px" oninput="calcularTotales()">' +
-    '<span class="sub-linea" style="min-width:80px;text-align:right">$' + precio + '</span>' +
-    '<button type="button" onclick="this.closest(\'.fila-producto\').remove();calcularTotales()" class="btn btn-danger">x</button>';
+    '<span class="sub-linea" style="min-width:90px;text-align:right;font-weight:600;font-variant-numeric:tabular-nums">$' + Number(precio).toLocaleString('es-CO') + '</span>' +
+    '<button type="button" onclick="this.closest(\'.fila-producto\').remove();calcularTotales()" class="btn btn-danger" style="padding:.3rem .6rem">✕</button>';
   document.getElementById('productosContainer').appendChild(div);
   calcularTotales();
 }

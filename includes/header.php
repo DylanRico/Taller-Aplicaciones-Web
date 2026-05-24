@@ -10,7 +10,7 @@ $user  = currentUser();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><?= $pageTitle ?? 'Distribuciones Caribe S.A.S' ?></title>
-  <link rel="stylesheet" href="/distribuciones-caribe/assets/css/style.css">
+  <link rel="stylesheet" href="/Taller-Aplicaciones-Web/assets/css/style.css">
 </head>
 <body>
 <div class="layout">
@@ -21,7 +21,7 @@ $user  = currentUser();
     <div class="topbar-user">
       <span><?= sanitize($user['nombre']) ?></span>
       <span class="badge-rol"><?= sanitize($user['rol']) ?></span>
-      <a href="/distribuciones-caribe/logout.php" class="btn-logout">Salir</a>
+      <a href="/Taller-Aplicaciones-Web/logout.php" class="btn-logout">Salir</a>
     </div>
   </header>
 <?php if ($flash): ?>

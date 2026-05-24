@@ -16,4 +16,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         flashMessage('success', 'Cliente eliminado.');
     }
 }
-redirect('/distribuciones-caribe/modules/clientes/index.php');
+redirect('/Taller-Aplicaciones-Web/modules/clientes/index.php');

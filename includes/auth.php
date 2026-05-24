@@ -9,7 +9,7 @@ function isLoggedIn(): bool {
 
 function requireLogin(): void {
     if (!isLoggedIn()) {
-        header('Location: /distribuciones-caribe/login.php');
+        header('Location: /Taller-Aplicaciones-Web/login.php');
         exit;
     }
 }
@@ -17,7 +17,7 @@ function requireLogin(): void {
 function requireAdmin(): void {
     requireLogin();
     if ($_SESSION['usuario_rol'] !== 'administrador') {
-        header('Location: /distribuciones-caribe/dashboard.php?error=acceso_denegado');
+        header('Location: /Taller-Aplicaciones-Web/dashboard.php?error=acceso_denegado');
         exit;
     }
 }

@@ -1,0 +1,22 @@
+CREDENCIALES DEL SISTEMA - Distribuciones Caribe S.A.S
+======================================================
+
+ROLES DISPONIBLES
+-----------------
+- vendedor
+- administrador
+
+CODIGO SECRETO PARA ADMINISTRADOR
+----------------------------------
+CARIBE2026
+
+BASE DE DATOS
+-------------
+Host:     localhost
+Motor:    MySQL (XAMPP)
+
+NOTAS
+-----
+- El login se encuentra en: /Taller-Aplicaciones-Web/login.php
+- Los administradores pueden gestionar usuarios en: /modules/usuarios/
+- Solo los administradores pueden eliminar productos

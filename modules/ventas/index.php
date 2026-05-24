@@ -20,34 +20,50 @@ $total_dia = array_sum(array_column($ventas_activas, 'total'));
 include __DIR__ . '/../../includes/header.php';
 include __DIR__ . '/../../includes/sidebar.php';
 ?>
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+<div class="page-header">
   <h2>Ventas</h2>
-  <a href="crear.php" class="btn btn-success">+ Nueva Venta</a>
+  <a href="crear.php" class="btn btn-success">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Nueva Venta
+  </a>
 </div>
+
 <div class="card">
-  <form method="GET" style="display:flex;gap:.5rem;margin-bottom:1rem;align-items:center">
-    <label>Fecha:</label>
-    <input type="date" name="fecha" value="<?= $fecha ?>" class="form-control" style="width:180px">
-    <button class="btn btn-secondary">Filtrar</button>
-    <span style="margin-left:auto;font-weight:600">Total del dia: <?= formatMoney($total_dia) ?></span>
-  </form>
+  <div style="display:flex;gap:.75rem;margin-bottom:1.125rem;align-items:center;flex-wrap:wrap">
+    <form method="GET" style="display:flex;gap:.5rem;align-items:center">
+      <label style="color:var(--text-muted);font-size:.875rem;white-space:nowrap">Fecha:</label>
+      <input type="date" name="fecha" value="<?= $fecha ?>" class="form-control" style="width:180px">
+      <button class="btn btn-secondary">Filtrar</button>
+    </form>
+    <div style="margin-left:auto;display:flex;align-items:center;gap:.5rem">
+      <span style="color:var(--text-muted);font-size:.875rem">Total del día:</span>
+      <span style="font-weight:700;font-size:1.05rem;font-variant-numeric:tabular-nums;color:var(--accent)"><?= formatMoney($total_dia) ?></span>
+    </div>
+  </div>
+
   <div class="table-wrapper">
     <table>
-      <thead><tr><th>Numero</th><th>Cliente</th><th>Subtotal</th><th>IVA</th><th>Total</th><th>Estado</th><th>Fecha</th><th>Accion</th></tr></thead>
+      <thead>
+        <tr><th>Número</th><th>Cliente</th><th>Subtotal</th><th>IVA</th><th>Total</th><th>Estado</th><th>Fecha</th><th>Acción</th></tr>
+      </thead>
       <tbody>
         <?php if (empty($ventas)): ?>
-        <tr><td colspan="8" style="text-align:center;color:var(--text-muted)">Sin ventas para esta fecha.</td></tr>
+        <tr><td colspan="8" style="text-align:center;color:var(--text-muted);padding:2rem">Sin ventas para esta fecha.</td></tr>
         <?php endif; ?>
         <?php foreach ($ventas as $v): ?>
         <tr>
-          <td><?= sanitize($v['numero']) ?></td>
+          <td style="font-weight:600;color:var(--accent)"><?= sanitize($v['numero']) ?></td>
           <td><?= sanitize($v['cliente']) ?></td>
           <td><?= formatMoney((float)$v['subtotal']) ?></td>
           <td><?= formatMoney((float)$v['iva']) ?></td>
-          <td><?= formatMoney((float)$v['total']) ?></td>
-          <td><span class="badge-<?= $v['estado']==='activa'?'stock-ok':'stock-low' ?>"><?= $v['estado'] ?></span></td>
+          <td style="font-weight:600"><?= formatMoney((float)$v['total']) ?></td>
+          <td>
+            <span class="<?= $v['estado']==='activa' ? 'badge-stock-ok' : 'badge-stock-low' ?>">
+              <?= $v['estado'] ?>
+            </span>
+          </td>
           <td><?= formatDate($v['creado_en']) ?></td>
-          <td><a href="factura.php?numero=<?= $v['numero'] ?>" class="btn btn-secondary">Ver Factura</a></td>
+          <td><a href="factura.php?numero=<?= $v['numero'] ?>" class="btn btn-secondary">Ver factura</a></td>
         </tr>
         <?php endforeach; ?>
       </tbody>

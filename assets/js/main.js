@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Auto-ocultar alertas despues de 4s
   const alerts = document.querySelectorAll('.alert');
-  alerts.forEach(a => setTimeout(() => a.style.display = 'none', 4000));
+  alerts.forEach(a => setTimeout(() => {
+    a.classList.add('fade-out');
+    a.addEventListener('transitionend', () => a.remove(), { once: true });
+  }, 4000));
 });
 
 // Validar formularios antes de enviar

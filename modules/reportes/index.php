@@ -6,23 +6,30 @@ requireLogin();
 include __DIR__ . '/../../includes/header.php';
 include __DIR__ . '/../../includes/sidebar.php';
 ?>
-<h2 style="margin-bottom:1.5rem">Reportes</h2>
-<div class="stats-grid">
-  <a href="ventas_diarias.php" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
-    <div class="stat-value" style="font-size:2.5rem">&#128202;</div>
-    <div class="stat-label" style="font-size:1rem;margin-top:.5rem">Ventas Diarias</div>
+<div class="page-header">
+  <h2>Reportes</h2>
+</div>
+
+<div class="stats-grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+  <a href="ventas_diarias.php" class="stat-card" style="text-decoration:none;cursor:pointer">
+    <span class="stat-icon">📊</span>
+    <div class="stat-label" style="font-size:.95rem;color:var(--text-main);font-weight:600;margin-top:.35rem">Ventas Diarias</div>
+    <div class="stat-label" style="margin-top:.25rem">Resumen de ingresos por día</div>
   </a>
-  <a href="productos_mas_vendidos.php" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
-    <div class="stat-value" style="font-size:2.5rem">&#127942;</div>
-    <div class="stat-label" style="font-size:1rem;margin-top:.5rem">Productos mas Vendidos</div>
+  <a href="productos_mas_vendidos.php" class="stat-card" style="text-decoration:none;cursor:pointer">
+    <span class="stat-icon">🏆</span>
+    <div class="stat-label" style="font-size:.95rem;color:var(--text-main);font-weight:600;margin-top:.35rem">Más Vendidos</div>
+    <div class="stat-label" style="margin-top:.25rem">Productos con mayor rotación</div>
   </a>
-  <a href="inventario_bajo.php" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
-    <div class="stat-value" style="font-size:2.5rem">&#9888;&#65039;</div>
-    <div class="stat-label" style="font-size:1rem;margin-top:.5rem">Inventario Bajo</div>
+  <a href="inventario_bajo.php" class="stat-card" style="text-decoration:none;cursor:pointer;box-shadow:0 0 0 1px rgba(243,156,18,.3),0 2px 12px rgba(0,0,0,.2)">
+    <span class="stat-icon">⚠️</span>
+    <div class="stat-label" style="font-size:.95rem;color:var(--text-main);font-weight:600;margin-top:.35rem">Inventario Bajo</div>
+    <div class="stat-label" style="margin-top:.25rem">Productos con stock crítico</div>
   </a>
-  <a href="clientes_frecuentes.php" class="card" style="text-decoration:none;text-align:center;cursor:pointer">
-    <div class="stat-value" style="font-size:2.5rem">&#128101;</div>
-    <div class="stat-label" style="font-size:1rem;margin-top:.5rem">Clientes Frecuentes</div>
+  <a href="clientes_frecuentes.php" class="stat-card" style="text-decoration:none;cursor:pointer">
+    <span class="stat-icon">⭐</span>
+    <div class="stat-label" style="font-size:.95rem;color:var(--text-main);font-weight:600;margin-top:.35rem">Clientes Frecuentes</div>
+    <div class="stat-label" style="margin-top:.25rem">Compradores con más transacciones</div>
   </a>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

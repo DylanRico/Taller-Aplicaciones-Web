@@ -1,79 +1,90 @@
-// Login/Register form switch logic
-const btnIniciar = document.getElementById('btn__iniciar-sesion');
-const btnRegistrarse = document.getElementById('btn__registrarse');
-const formularioLogin = document.querySelector('.formulario__login');
-const formularioRegister = document.querySelector('.formulario__register');
-const contenedorLoginRegister = document.querySelector('.contenedor__login-register');
-const cajaTraseraLogin = document.querySelector('.caja__trasera-login');
-const cajaTraseraRegister = document.querySelector('.caja__trasera-register');
-const registerRol = document.getElementById('register-rol');
-const datosAdmin = document.getElementById('datos-admin');
-const datosUsuario = document.getElementById('datos-usuario');
+const btnIniciar             = document.getElementById('btn__iniciar-sesion');
+const btnRegistrarse         = document.getElementById('btn__registrarse');
+const formularioLogin        = document.querySelector('.formulario__login');
+const formularioRegister     = document.querySelector('.formulario__register');
+const contenedorLR           = document.querySelector('.contenedor__login-register');
+const cajaTraseraLogin       = document.querySelector('.caja__trasera-login');
+const cajaTraseraRegister    = document.querySelector('.caja__trasera-register');
+const datosAdmin             = document.getElementById('datos-admin');
+const rolOptions             = document.querySelectorAll('.rol-option');
 
-function anchoPage(){
-    if (window.innerWidth > 850){
-        cajaTraseraRegister.style.display = 'block';
-        cajaTraseraLogin.style.display = 'block';
-    }else{
-        cajaTraseraRegister.style.display = 'block';
-        cajaTraseraRegister.style.opacity = '1';
-        cajaTraseraLogin.style.display = 'none';
-        formularioLogin.style.display = 'block';
-        contenedorLoginRegister.style.left = '0px';
-        formularioRegister.style.display = 'none';   
-    }
+// ── Ripple effect on submit buttons ──────────────────────────
+document.querySelectorAll('.btn-submit').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    const ripple = document.createElement('span');
+    ripple.classList.add('ripple-effect');
+    const rect = btn.getBoundingClientRect();
+    ripple.style.left = (e.clientX - rect.left) + 'px';
+    ripple.style.top  = (e.clientY - rect.top)  + 'px';
+    btn.appendChild(ripple);
+    ripple.addEventListener('animationend', () => ripple.remove());
+  });
+});
+
+// ── Switch to login ───────────────────────────────────────────
+function iniciarSesion() {
+  if (window.innerWidth > 768) {
+    contenedorLR.style.left = '0';
+    cajaTraseraLogin.style.opacity  = '0';
+    cajaTraseraLogin.style.pointerEvents = 'none';
+    cajaTraseraRegister.style.opacity = '1';
+    cajaTraseraRegister.style.pointerEvents = 'all';
+  }
+  formularioRegister.style.display = 'none';
+  formularioRegister.classList.remove('visible');
+  formularioLogin.style.display = 'flex';
+  formularioLogin.classList.add('visible');
 }
 
-function iniciarSesion(){
-    if (window.innerWidth > 850){
-        formularioLogin.style.display = 'block';
-        contenedorLoginRegister.style.left = '10px';
-        formularioRegister.style.display = 'none';
-        cajaTraseraRegister.style.opacity = '1';
-        cajaTraseraLogin.style.opacity = '0';
-    }else{
-        formularioLogin.style.display = 'block';
-        contenedorLoginRegister.style.left = '0px';
-        formularioRegister.style.display = 'none';
-        cajaTraseraRegister.style.display = 'block';
-        cajaTraseraLogin.style.display = 'none';
-    }
+// ── Switch to register ────────────────────────────────────────
+function register() {
+  if (window.innerWidth > 768) {
+    contenedorLR.style.left = '50%';
+    cajaTraseraRegister.style.opacity = '0';
+    cajaTraseraRegister.style.pointerEvents = 'none';
+    cajaTraseraLogin.style.opacity  = '1';
+    cajaTraseraLogin.style.pointerEvents = 'all';
+  }
+  formularioLogin.style.display = 'none';
+  formularioLogin.classList.remove('visible');
+  formularioRegister.style.display = 'flex';
+  formularioRegister.classList.add('visible');
 }
 
-function register(){
-    if (window.innerWidth > 850){
-        formularioRegister.style.display = 'block';
-        contenedorLoginRegister.style.left = '410px';
-        formularioLogin.style.display = 'none';
-        cajaTraseraRegister.style.opacity = '0';
-        cajaTraseraLogin.style.opacity = '1';
-    }else{
-        formularioRegister.style.display = 'block';
-        contenedorLoginRegister.style.left = '0px';
-        formularioLogin.style.display = 'none';
-        cajaTraseraRegister.style.display = 'none';
-        cajaTraseraLogin.style.display = 'block';
-        cajaTraseraLogin.style.opacity = '1';
-    }
+// ── Responsive reset ─────────────────────────────────────────
+function anchoPage() {
+  if (window.innerWidth <= 768) {
+    contenedorLR.style.left = '0';
+    cajaTraseraLogin.style.opacity  = '1';
+    cajaTraseraRegister.style.opacity = '1';
+    cajaTraseraLogin.style.pointerEvents  = 'all';
+    cajaTraseraRegister.style.pointerEvents = 'all';
+  }
 }
 
-function ajustarCamposRol() {
-    if (registerRol && registerRol.value === 'administrador') {
-        datosAdmin.style.display = 'block';
-        datosUsuario.style.display = 'none';
-    } else {
-        datosAdmin.style.display = 'none';
-        datosUsuario.style.display = 'block';
-    }
+// ── Rol pill switch ───────────────────────────────────────────
+function ajustarCamposRol(value) {
+  if (!datosAdmin) return;
+  rolOptions.forEach(opt => opt.classList.toggle('active', opt.querySelector('input').value === value));
+  datosAdmin.style.display = (value === 'administrador') ? 'block' : 'none';
 }
 
-window.addEventListener('resize', anchoPage);
+// ── Events ───────────────────────────────────────────────────
 btnIniciar.addEventListener('click', iniciarSesion);
 btnRegistrarse.addEventListener('click', register);
+window.addEventListener('resize', anchoPage);
 
-if (registerRol) {
-    registerRol.addEventListener('change', ajustarCamposRol);
-    ajustarCamposRol();
-}
+rolOptions.forEach(opt => {
+  opt.addEventListener('click', () => {
+    const radio = opt.querySelector('input[type="radio"]');
+    radio.checked = true;
+    ajustarCamposRol(radio.value);
+  });
+});
 
-anchoPage();
+// Init with currently selected radio value
+const checkedRadio = document.querySelector('.rol-option input[type="radio"]:checked');
+if (checkedRadio) ajustarCamposRol(checkedRadio.value);
+
+// ── Init: show login by default ───────────────────────────────
+iniciarSesion();

@@ -17,61 +17,65 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['ciudad'],   $_POST['direccion']
     ]);
     flashMessage('success', 'Cliente registrado exitosamente.');
-    redirect('/distribuciones-caribe/modules/clientes/index.php');
+    redirect('/Taller-Aplicaciones-Web/modules/clientes/index.php');
 }
 
 include __DIR__ . '/../../includes/header.php';
 include __DIR__ . '/../../includes/sidebar.php';
 ?>
-<h2 style="margin-bottom:1rem">Nuevo Cliente</h2>
-<div class="card">
-<form method="POST">
-  <div class="form-row">
-    <div class="form-group">
-      <label>Tipo de documento</label>
-      <select name="tipo_doc" class="form-control" required>
-        <option>CC</option><option>NIT</option><option>CE</option><option>PP</option>
-      </select>
+<div class="page-header">
+  <h2>Nuevo Cliente</h2>
+  <a href="index.php" class="btn btn-secondary">← Volver</a>
+</div>
+
+<div class="card" style="max-width:720px">
+  <form method="POST">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Tipo de documento</label>
+        <select name="tipo_doc" class="form-control" required>
+          <option>CC</option><option>NIT</option><option>CE</option><option>PP</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Número de documento *</label>
+        <input type="text" name="documento" class="form-control" required>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Numero de documento *</label>
-      <input type="text" name="documento" class="form-control" required>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Nombre *</label>
+        <input type="text" name="nombre" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>Apellido</label>
+        <input type="text" name="apellido" class="form-control">
+      </div>
     </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label>Nombre *</label>
-      <input type="text" name="nombre" class="form-control" required>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="text" name="telefono" class="form-control">
+      </div>
     </div>
-    <div class="form-group">
-      <label>Apellido</label>
-      <input type="text" name="apellido" class="form-control">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Ciudad</label>
+        <input type="text" name="ciudad" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Dirección</label>
+        <input type="text" name="direccion" class="form-control">
+      </div>
     </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label>Email</label>
-      <input type="email" name="email" class="form-control">
+    <div style="display:flex;gap:.5rem;padding-top:.25rem">
+      <button class="btn btn-primary">Guardar cliente</button>
+      <a href="index.php" class="btn btn-secondary">Cancelar</a>
     </div>
-    <div class="form-group">
-      <label>Telefono</label>
-      <input type="text" name="telefono" class="form-control">
-    </div>
-  </div>
-  <div class="form-row">
-    <div class="form-group">
-      <label>Ciudad</label>
-      <input type="text" name="ciudad" class="form-control">
-    </div>
-    <div class="form-group">
-      <label>Direccion</label>
-      <input type="text" name="direccion" class="form-control">
-    </div>
-  </div>
-  <div style="display:flex;gap:.5rem">
-    <button class="btn btn-primary">Guardar</button>
-    <a href="index.php" class="btn btn-secondary">Cancelar</a>
-  </div>
-</form>
+  </form>
 </div>
 <?php include __DIR__ . '/../../includes/footer.php'; ?>

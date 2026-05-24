@@ -16,4 +16,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         flashMessage('success', 'Producto desactivado del inventario.');
     }
 }
-redirect('/distribuciones-caribe/modules/productos/index.php');
+redirect('/Taller-Aplicaciones-Web/modules/productos/index.php');
